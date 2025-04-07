@@ -1,6 +1,6 @@
 import { FormField, FormValue, SelectField } from "./action";
 
-export type FormElement = HTMLInputElement | HTMLSelectElement;
+export type FormElement = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
 
 const inputTypesToIgnore = ["button", "submit", "image", "reset", "file", "password"];
 
@@ -23,6 +23,10 @@ export const getFormFields = (elements: FormElement[]): FormField[] => {
     });
 };
 
+const isCheckbox = (element: FormElement): element is HTMLInputElement => {
+  return element.type === "checkbox";
+};
+
 export const updateUncontrolledForm = (
   elements: FormElement[],
   extractedFormValues: Record<string, FormValue>
@@ -31,7 +35,7 @@ export const updateUncontrolledForm = (
     if (element.name in extractedFormValues) {
       const value = extractedFormValues[element.name];
 
-      if (element.type === "checkbox") {
+      if (isCheckbox(element)) {
         element.checked = Boolean(value);
       } else {
         element.value = String(value);

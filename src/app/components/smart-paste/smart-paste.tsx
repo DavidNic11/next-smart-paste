@@ -9,7 +9,7 @@ type SmartPasteButtonProps<FormValues extends Record<string, FormValue>> = {
   onExtracted?: (input: FormValues) => void;
 };
 
-export function SmartPaste<FormValues extends Record<string, FormValue> = Record<string, FormValue>>({
+export default function SmartPaste<FormValues extends Record<string, FormValue> = Record<string, FormValue>>({
   onExtracted,
 }: SmartPasteButtonProps<FormValues>) {
   const { isExecuting, error, execute } = useExecuteAsync(async (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -20,7 +20,8 @@ export function SmartPaste<FormValues extends Record<string, FormValue> = Record
     const clipboardText = await navigator.clipboard.readText();
 
     const elements = Array.from(form.elements).filter(
-      (element): element is FormElement => element.tagName === "INPUT" || element.tagName === "SELECT"
+      (element): element is FormElement =>
+        element.tagName === "INPUT" || element.tagName === "SELECT" || element.tagName === "TEXTAREA"
     );
 
     const fields = getFormFields(elements);
@@ -35,8 +36,13 @@ export function SmartPaste<FormValues extends Record<string, FormValue> = Record
   });
 
   return (
-    <div className="mb-4">
-      <button type="button" onClick={execute} disabled={isExecuting} className="p-2 rounded bg-black text-white">
+    <div>
+      <button
+        type="button"
+        onClick={execute}
+        disabled={isExecuting}
+        className="px-6 py-2.5 border border-neutral-200 text-neutral-600 font-medium rounded-lg hover:bg-neutral-50 transition-colors hover:cursor-pointer"
+      >
         {isExecuting ? "Smart Pasting…" : "Smart Paste"}
       </button>
       {error && <p className="text-red-500 text-sm mt-2">{error?.message}</p>}
