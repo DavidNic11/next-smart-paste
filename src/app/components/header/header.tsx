@@ -5,7 +5,7 @@ export default function Header() {
         <span className="text-violet-600">Smart Paste</span> for Your Forms
       </h1>
       <p className="mt-4 text-lg text-neutral-700 leading-relaxed">
-        Drop a job description into the clipboard or upload a file — watch your form fill itself using{" "}
+        Drop a job description into your clipboard — watch your form fill itself using{" "}
         <a href="https://nextjs.org/" target="_blank" className="text-violet-500 font-medium">
           Next.js
         </a>
